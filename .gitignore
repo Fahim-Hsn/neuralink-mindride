@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Large firmware binaries & downloads
+*.bin
+*.elf
+*.hex
+*.tar.gz
+ESP32_GENERIC_S3_SPIRAM.bin
+
+# PlatformIO build artifacts
+.pio/
+.vscode/
+
+# Recordings and trained models
+eeg_recordings/
+eeg_model.pkl
+confusion_matrix.png
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
