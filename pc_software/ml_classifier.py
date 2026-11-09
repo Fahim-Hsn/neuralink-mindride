@@ -310,7 +310,7 @@ def train(csv_dir=CSV_DIR, model_path=MODEL_PATH):
     # 5. Save
     print(f"\n[5/5] Saving model to {model_path} ...")
     joblib.dump(pipe, model_path)
-    print(f"  ✅ Model saved!")
+    print(f"  [OK] Model saved successfully.")
 
     # Plot confusion matrix on full data
     y_pred = pipe.predict(X)
@@ -416,9 +416,9 @@ def live_demo(model_path=MODEL_PATH, port=None):
     print("  Press Ctrl+C to stop.\n")
 
     def on_prediction(label, conf):
-        bar   = "█" * int(conf * 20)
-        emoji = "😌" if label == "eyes_closed" else "👀"
-        print(f"\r  {emoji}  {label:15s}  confidence: [{bar:<20s}] {conf:.0%}   ",
+        bar = "#" * int(conf * 20)
+        tag = "[STATE: CLOSED]" if label == "eyes_closed" else "[STATE: OPEN  ]"
+        print(f"\r  {tag}  {label:15s}  confidence: [{bar:<20s}] {conf:.0%}   ",
               end="", flush=True)
 
     clf = LiveClassifier(model_path=model_path, port=port)

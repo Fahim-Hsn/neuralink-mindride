@@ -1,61 +1,61 @@
-# Neuralink MindRide 🧠🚗
+# Neuralink MindRide
 
 An end-to-end EEG-based Brain-Computer Interface (BCI) system designed to acquire raw brainwave signals, perform real-time digital filtering and frequency-band feature extraction, and classify mental states to control a motorized robot car.
 
-## 📌 Architecture Overview
+## Architecture Overview
 
 ```
 [ Scalp Electrodes (O1, A1, GND) ]
-               │
-               ▼
+               |
+               v
    [ AD8232 Analog Front-End ]
-               │
-               ▼
+               |
+               v
    [ ADS1115 16-Bit ADC (I2C) ]
-               │
-               ▼
+               |
+               v
 [ ESP32-S3 DAQ Firmware (250 Hz) ]
-               │ USB Serial (CDC)
-               ▼
+               | USB Serial (CDC)
+               v
    [ Python Real-Time Pipeline ]
-      ├── Signal Processing (50 Hz Notch, 8-13 Hz Alpha, 13-30 Hz Beta)
-      ├── Real-Time Visualization (Matplotlib dashboard)
-      └── ML Classification (Random Forest / SVM)
-               │ WiFi UDP Commands
-               ▼
+      |-- Signal Processing (50 Hz Notch, 8-13 Hz Alpha, 13-30 Hz Beta)
+      |-- Real-Time Visualization (Matplotlib dashboard)
+      `-- ML Classification (Random Forest / SVM)
+               | WiFi UDP Commands
+               v
 [ ESP32-S3 Robot Car Controller ]
-               │ PWM
-               ▼
+               | PWM
+               v
 [ L298N Driver + Dual DC Motors ]
 ```
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
-├── esp32_firmware_pio/     # PlatformIO C++ firmware for EEG acquisition (ESP32-S3)
-│   ├── platformio.ini
-│   └── src/main.cpp
-├── robot_car_pio/          # PlatformIO C++ firmware for robot car motor control
-│   ├── platformio.ini
-│   └── src/main.cpp
-├── esp32_firmware/         # MicroPython fallback firmware
-│   ├── boot.py
-│   └── main.py
-├── pc_software/            # PC-side data visualization and machine learning
-│   ├── eeg_visualizer.py   # Real-time multi-panel EEG dashboard
-│   ├── ml_classifier.py    # Feature extraction, model training, live inference
-│   ├── mock_eeg_device.py  # Synthetic signal simulator (for offline testing)
-│   ├── robot_controller.py # UDP bridge between ML engine and Robot Car
-│   └── requirements.txt    # Python dependencies
-├── flash_esp32.py          # Automated MicroPython firmware flashing script
-└── verify_setup.py         # Local environment and dependency verification script
+|-- esp32_firmware_pio/     # PlatformIO C++ firmware for EEG acquisition (ESP32-S3)
+|   |-- platformio.ini
+|   `-- src/main.cpp
+|-- robot_car_pio/          # PlatformIO C++ firmware for robot car motor control
+|   |-- platformio.ini
+|   `-- src/main.cpp
+|-- esp32_firmware/         # MicroPython fallback firmware
+|   |-- boot.py
+|   `-- main.py
+|-- pc_software/            # PC-side data visualization and machine learning
+|   |-- eeg_visualizer.py   # Real-time multi-panel EEG dashboard
+|   |-- ml_classifier.py    # Feature extraction, model training, live inference
+|   |-- mock_eeg_device.py  # Synthetic signal simulator (for offline testing)
+|   |-- robot_controller.py # UDP bridge between ML engine and Robot Car
+|   `-- requirements.txt    # Python dependencies
+|-- flash_esp32.py          # Automated MicroPython firmware flashing script
+`-- verify_setup.py         # Local environment and dependency verification script
 ```
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ### 1. Set Up Python Environment
 ```bash
@@ -93,11 +93,11 @@ python pc_software/eeg_visualizer.py
 
 ---
 
-## 🛡️ Safety Considerations
+## Safety Considerations
 - **Isolation:** Always power the ESP32-S3 acquisition unit from an isolated USB battery pack when electrodes are connected to a human subject.
 - **Laptop Power:** Disconnect the host PC/laptop from mains AC power (run on battery mode) during data collection sessions to minimize electrical risk and 50 Hz powerline hum.
 
 ---
 
-## 📄 License
+## License
 MIT License. Developed for undergraduate BCI research.

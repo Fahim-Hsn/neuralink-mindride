@@ -98,7 +98,7 @@ def signal_quality(data):
         return "VERY NOISY"
     if std > 100:
         return "NOISY"
-    return "GOOD ✓"
+    return "GOOD [OK]"
 
 
 # ─────────────────────────────────────────────
@@ -231,7 +231,7 @@ class EEGVisualizer:
     def _setup_figure(self):
         self.fig = plt.figure(figsize=(14, 9), facecolor='#0d1117')
         self.fig.suptitle(
-            "🧠 Real-Time EEG Monitor — Neuralink DIY",
+            "Real-Time EEG Monitor - Neuralink MindRide",
             color='white', fontsize=14, fontweight='bold'
         )
 
@@ -301,7 +301,7 @@ class EEGVisualizer:
         # Status text
         self.status_text = self.fig.text(
             0.5, 0.005,
-            "⏳ Connecting...",
+            "Connecting...",
             ha='center', color='yellow', fontsize=10
         )
 
@@ -317,10 +317,10 @@ class EEGVisualizer:
     def _on_key(self, event):
         if event.key == 'o':
             self.rx.label_last_n_seconds(2, "eyes_open")
-            self.status_text.set_text("🏷 Labeled: EYES OPEN (last 2s)")
+            self.status_text.set_text("Labeled: EYES OPEN (last 2s)")
         elif event.key == 'c':
             self.rx.label_last_n_seconds(2, "eyes_closed")
-            self.status_text.set_text("🏷 Labeled: EYES CLOSED (last 2s)")
+            self.status_text.set_text("Labeled: EYES CLOSED (last 2s)")
         elif event.key == 'q':
             plt.close('all')
             self.rx.stop()
@@ -330,7 +330,7 @@ class EEGVisualizer:
         n   = len(buf)
 
         if n < SAMPLE_RATE:
-            self.status_text.set_text("⏳ Buffering... ({}/{} samples)".format(
+            self.status_text.set_text("Buffering... ({}/{} samples)".format(
                 n, SAMPLE_RATE))
             return
 
@@ -390,11 +390,11 @@ class EEGVisualizer:
         alpha_p = powers[2]
         beta_p  = powers[3]
         ratio   = (alpha_p / beta_p) if beta_p > 1e-10 else 0
-        leads   = "✅ Electrodes OK" if self.rx.leads_ok else "❌ Check Electrodes!"
+        leads   = "[OK] Electrodes Connected" if self.rx.leads_ok else "[WARN] Check Electrodes"
         self.status_text.set_text(
             f"{leads}  |  Quality: {quality}  |  "
             f"Alpha: {alpha_p:.3f}  Beta: {beta_p:.3f}  "
-            f"α/β ratio: {ratio:.2f}"
+            f"Alpha/Beta ratio: {ratio:.2f}"
         )
         self.status_text.set_color('lime' if 'GOOD' in quality else 'orange')
 
